@@ -11,12 +11,15 @@ namespace ShootEmUp
 
         [SerializeField]
         private BulletSystem _bulletSystem;
+
+        //TODO Setup with game started/resumed/paused/finished
+        bool isGameRunning = true;
         
         private readonly HashSet<GameObject> m_activeEnemies = new();
 
         private IEnumerator Start()
         {
-            while (true)
+            while (isGameRunning)
             {
                 yield return new WaitForSeconds(1);
                 var enemy = this._enemyPool.SpawnEnemy();
