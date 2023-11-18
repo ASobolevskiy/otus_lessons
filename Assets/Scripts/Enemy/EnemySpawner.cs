@@ -1,6 +1,4 @@
-﻿using ShootEmUp;
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ShootEmUp
 {
@@ -57,4 +55,3 @@ namespace ShootEmUp
         }
     }
 }
-
