@@ -6,11 +6,9 @@ namespace ShootEmUp
 {
     public sealed class EnemyManager : MonoBehaviour
     {
-        [SerializeField]
-        private EnemyPool _enemyPool;
+        [SerializeField] EnemySpawner enemySpawner;
 
-        [SerializeField]
-        private BulletSystem _bulletSystem;
+        [SerializeField] BulletSystem _bulletSystem;
 
         //TODO Setup with game started/resumed/paused/finished
         bool isGameRunning = true;
@@ -22,7 +20,7 @@ namespace ShootEmUp
             while (isGameRunning)
             {
                 yield return new WaitForSeconds(1);
-                var enemy = this._enemyPool.SpawnEnemy();
+                var enemy = this.enemySpawner.SpawnEnemy();
                 if (enemy != null)
                 {
                     if (this.m_activeEnemies.Add(enemy))
@@ -41,7 +39,7 @@ namespace ShootEmUp
                 enemy.GetComponent<HitPointsComponent>().hpEmpty -= this.OnDestroyed;
                 enemy.GetComponent<EnemyAttackAgent>().OnFire -= this.OnFire;
 
-                _enemyPool.UnspawnEnemy(enemy);
+                enemySpawner.RemoveDestroyedEnemy(enemy);
             }
         }
 
