@@ -568,6 +568,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aabb8ce3358b5864c81cddba1f327ea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  input: {fileID: 1134805361}
+  character: {fileID: 4414282821800802397}
 --- !u!1 &1134805359
 GameObject:
   m_ObjectHideFlags: 0
@@ -612,8 +614,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b55e0c0d37f64d1f835fe367d4939922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 4414282821800802397}
-  characterController: {fileID: 1879759790}
 --- !u!850595691 &1263964384
 LightingSettings:
   m_ObjectHideFlags: 0

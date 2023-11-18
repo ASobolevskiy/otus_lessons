@@ -8,6 +8,7 @@ namespace ShootEmUp
         public event Action<GameObject> hpEmpty;
         
         [SerializeField] private int hitPoints;
+        [SerializeField] int maxHp = 3;
         
         public bool IsHitPointsExists() {
             return this.hitPoints > 0;
@@ -21,5 +22,7 @@ namespace ShootEmUp
                 this.hpEmpty?.Invoke(this.gameObject);
             }
         }
+
+        public void RestoreHpToMax() => hitPoints = maxHp;
     }
 }
