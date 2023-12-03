@@ -1,42 +1,67 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 
 namespace ShootEmUp
 {
     class EnemySpawner : MonoBehaviour
     {
+        public Action<GameObject> OnEnemySpawned;
+
         [Header("Spawn")]
-        [SerializeField] EnemyPositions enemyPositions;
+        [SerializeField]
+        EnemyPositions enemyPositions;
 
-        [SerializeField] EnemyPool enemyPool;
+        [SerializeField]
+        EnemyPool enemyPool;
 
-        [SerializeField] int maxSpawnedEnemies = 7;
+        [SerializeField]
+        Transform worldTransform;
 
-        [SerializeField] Transform worldTransform;
+        [SerializeField]
+        GameObject character;
 
-        [SerializeField] GameObject character;
+        [SerializeField]
+        BulletSystem bulletSystem;
+
+        [SerializeField]
+        float spawnDelayInSeconds = 1f;
+
+        //TODO Link up with gamestate
+        readonly bool isGameRunning = true;
 
         GameObject currentEnemy;
 
-        private void Awake() => enemyPool.FillEnemyQueue(maxSpawnedEnemies);
-        public GameObject SpawnEnemy()
+        private IEnumerator Start()
+        {
+            while (isGameRunning)
+            {
+                yield return new WaitForSeconds(spawnDelayInSeconds);
+                if (enemyPool.HasNotSpawnedEnemies())
+                    SpawnEnemy();
+            }
+        }
+
+        public void SpawnEnemy()
         {
             currentEnemy = enemyPool.DequeueEnemy();
-            if(currentEnemy != null)
+            currentEnemy.transform.SetParent(worldTransform);
+            RestoreHpIfNeeded();
+            SetSpawnPosition();
+            SetAttackPosition();
+            if (currentEnemy.TryGetComponent(out EnemyAttackAgent enemyAttackAgent))
             {
-                currentEnemy.transform.SetParent(worldTransform);
-                RestoreHpIfNeeded();
-                SetSpawnPosition();
-                SetAttackPosition();
-                currentEnemy.GetComponent<EnemyAttackAgent>().SetTarget(this.character);
+                enemyAttackAgent.SetTarget(character);
+                enemyAttackAgent.SetBulletSystem(bulletSystem);
             }
-            return currentEnemy;
+            OnEnemySpawned?.Invoke(currentEnemy);
         }
 
         public void RemoveDestroyedEnemy(GameObject enemy) => enemyPool.EnqueueEnemy(enemy);
 
         void RestoreHpIfNeeded()
         {
-            if(currentEnemy.TryGetComponent<HitPointsComponent>(out var hpComponent) && !hpComponent.IsHitPointsExists())
+            if (currentEnemy.TryGetComponent<HitPointsComponent>(out var hpComponent) && !hpComponent.IsHitPointsExists())
             {
                 hpComponent.RestoreHpToMax();
             }
@@ -44,13 +69,13 @@ namespace ShootEmUp
 
         void SetSpawnPosition()
         {
-            var spawnPosition = this.enemyPositions.RandomSpawnPosition();
+            var spawnPosition = enemyPositions.RandomSpawnPosition();
             currentEnemy.transform.position = spawnPosition.position;
         }
 
         void SetAttackPosition()
         {
-            var attackPosition = this.enemyPositions.RandomAttackPosition();
+            var attackPosition = enemyPositions.RandomAttackPosition();
             currentEnemy.GetComponent<EnemyMoveAgent>().SetDestination(attackPosition.position);
         }
     }

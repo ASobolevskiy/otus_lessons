@@ -4,8 +4,17 @@ namespace ShootEmUp
 {
     class FireController : MonoBehaviour
     {
-        [SerializeField] CharacterController characterController;
-        [SerializeField] InputManager input;
+        [SerializeField]
+        BulletSystem bulletSystem;
+
+        [SerializeField]
+        BulletConfig bulletConfig;
+
+        [SerializeField]
+        InputSystem input;
+
+        [SerializeField]
+        GameObject character;
 
         private void OnEnable()
         {
@@ -19,7 +28,17 @@ namespace ShootEmUp
 
         private void Fire()
         {
-            characterController._fireRequired = true;
+            var weapon = character.GetComponent<WeaponComponent>();
+            bulletSystem.FlyBulletByArgs(new BulletSystem.Args
+            {
+                isPlayer = true,
+                physicsLayer = (int)bulletConfig.physicsLayer,
+                color = bulletConfig.color,
+                damage = bulletConfig.damage,
+                position = weapon.Position,
+                velocity = weapon.Rotation * Vector3.up * bulletConfig.speed
+            });
+
         }
     }
 }

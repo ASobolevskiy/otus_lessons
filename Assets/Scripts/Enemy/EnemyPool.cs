@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace ShootEmUp
@@ -7,28 +8,33 @@ namespace ShootEmUp
     {
         [Header("Pool")]
         [SerializeField]
-        private Transform container;
+        Transform container;
 
         [SerializeField]
-        private GameObject prefab;
+        GameObject prefab;
 
-        private readonly Queue<GameObject> enemyPool = new();
-        
-        public void FillEnemyQueue(int maxEnemies)
+        [SerializeField]
+        public int maxEnemies = 7;
+
+        readonly Queue<GameObject> enemyPool = new();
+
+        void Awake()
         {
             for (var i = 0; i < maxEnemies; i++)
             {
-                var enemy = Instantiate(this.prefab, this.container);
-                this.enemyPool.Enqueue(enemy);
+                var enemy = Instantiate(prefab, container);
+                enemyPool.Enqueue(enemy);
             }
         }
 
-        public GameObject DequeueEnemy() => enemyPool.TryDequeue(out var enemy) ? enemy : null;
+        public GameObject DequeueEnemy() => enemyPool.Dequeue();
 
         public void EnqueueEnemy(GameObject enemy)
         {
-            enemy.transform.SetParent(this.container);
-            this.enemyPool.Enqueue(enemy);
+            enemy.transform.SetParent(container);
+            enemyPool.Enqueue(enemy);
         }
+
+        public bool HasNotSpawnedEnemies() => enemyPool.Any();
     }
 }

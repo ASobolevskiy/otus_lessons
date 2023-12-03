@@ -4,53 +4,78 @@ namespace ShootEmUp
 {
     public sealed class EnemyAttackAgent : MonoBehaviour
     {
-        public delegate void FireHandler(GameObject enemy, Vector2 position, Vector2 direction);
+        [SerializeField]
+        WeaponComponent weaponComponent;
 
-        public event FireHandler OnFire;
+        //TODO This breaks game, DI needed
+        BulletSystem bulletSystem;
 
-        [SerializeField] private WeaponComponent weaponComponent;
-        [SerializeField] private EnemyMoveAgent moveAgent;
-        [SerializeField] private float countdown;
+        [SerializeField]
+        EnemyMoveAgent moveAgent;
 
-        private GameObject target;
-        private float currentTime;
+        [SerializeField]
+        float countdown;
+
+        GameObject target;
+        float currentTime;
+
+        bool readyForAttack;
 
         public void SetTarget(GameObject target)
         {
             this.target = target;
         }
 
+        public void SetBulletSystem(BulletSystem bulletSystem)
+        {
+            if (this.bulletSystem == null)
+                this.bulletSystem = bulletSystem;
+        }
+
+        public void SetReadyForAttack(bool ready)
+        {
+            readyForAttack = ready;
+        }
+
         public void Reset()
         {
-            this.currentTime = this.countdown;
+            currentTime = countdown;
         }
 
         private void FixedUpdate()
         {
-            if (!this.moveAgent.IsReached)
-            {
-                return;
-            }
-            
-            if (!this.target.GetComponent<HitPointsComponent>().IsHitPointsExists())
+            if (!readyForAttack)
             {
                 return;
             }
 
-            this.currentTime -= Time.fixedDeltaTime;
-            if (this.currentTime <= 0)
+            if (!target.GetComponent<HitPointsComponent>().IsHitPointsExists())
             {
-                this.Fire();
-                this.currentTime += this.countdown;
+                return;
+            }
+
+            currentTime -= Time.fixedDeltaTime;
+            if (currentTime <= 0)
+            {
+                Fire();
+                currentTime += countdown;
             }
         }
 
         private void Fire()
         {
-            var startPosition = this.weaponComponent.Position;
-            var vector = (Vector2) this.target.transform.position - startPosition;
+            var startPosition = weaponComponent.Position;
+            var vector = (Vector2)target.transform.position - startPosition;
             var direction = vector.normalized;
-            this.OnFire?.Invoke(this.gameObject, startPosition, direction);
+            bulletSystem.FlyBulletByArgs(new BulletSystem.Args
+            {
+                isPlayer = false,
+                physicsLayer = (int)PhysicsLayer.ENEMY_BULLET,
+                color = Color.red,
+                damage = 1,
+                position = startPosition,
+                velocity = direction * 2.0f
+            });
         }
     }
 }

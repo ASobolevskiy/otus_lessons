@@ -4,10 +4,11 @@ namespace ShootEmUp
 {
     class MoveController : MonoBehaviour
     {
-        Vector2 directionValue;
+        [SerializeField]
+        InputSystem input;
 
-        [SerializeField] InputManager input;
-        [SerializeField] GameObject character;
+        [SerializeField]
+        GameObject character;
 
         private void OnEnable()
         {
@@ -19,14 +20,13 @@ namespace ShootEmUp
             input.OnMove -= SetDirection;
         }
 
-        private void FixedUpdate()
+        private void SetDirection(Vector2 direction)
         {
-            var moveComponent = character.GetComponent<MoveComponent>();
-            if(moveComponent != null)
-                moveComponent.MoveByRigidbodyVelocity(directionValue * Time.fixedDeltaTime);
+            if (character.TryGetComponent(out MoveComponentBase moveComponent))
+            {
+                moveComponent.SetDirection(direction);
+            }
         }
-
-        private void SetDirection(Vector2 direction) => directionValue = direction;
     }
 }
 
