@@ -24,37 +24,23 @@ namespace ShootEmUp
         [SerializeField]
         private BulletSystem bulletSystem;
 
-        [SerializeField]
-        private float spawnDelayInSeconds = 1f;
-
-        //TODO Link up with gamestate
-        private readonly bool isGameRunning = true;
-
         private GameObject currentEnemy;
-
-        private IEnumerator Start()
-        {
-            while (isGameRunning)
-            {
-                yield return new WaitForSeconds(spawnDelayInSeconds);
-                if (enemyPool.HasNotSpawnedEnemies())
-                    SpawnEnemy();
-            }
-        }
 
         public void SpawnEnemy()
         {
-            currentEnemy = enemyPool.DequeueEnemy();
-            currentEnemy.transform.SetParent(worldTransform);
-            RestoreHpIfNeeded();
-            SetSpawnPosition();
-            SetAttackPosition();
-            if (currentEnemy.TryGetComponent(out EnemyAttackAgent enemyAttackAgent))
+            if(enemyPool.TryDequeueEnemy(out currentEnemy))
             {
-                enemyAttackAgent.SetTarget(character);
-                enemyAttackAgent.SetBulletSystem(bulletSystem);
+                currentEnemy.transform.SetParent(worldTransform);
+                RestoreHpIfNeeded();
+                SetSpawnPosition();
+                SetAttackPosition();
+                if (currentEnemy.TryGetComponent(out EnemyAttackAgent enemyAttackAgent))
+                {
+                    enemyAttackAgent.SetTarget(character);
+                    enemyAttackAgent.SetBulletSystem(bulletSystem);
+                }
+                OnEnemySpawned?.Invoke(currentEnemy);
             }
-            OnEnemySpawned?.Invoke(currentEnemy);
         }
 
         public void RemoveDestroyedEnemy(GameObject enemy) => enemyPool.EnqueueEnemy(enemy);

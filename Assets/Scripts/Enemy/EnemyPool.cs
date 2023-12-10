@@ -27,14 +27,12 @@ namespace ShootEmUp
             }
         }
 
-        public GameObject DequeueEnemy() => enemyPool.Dequeue();
+        public bool TryDequeueEnemy(out GameObject enemy) => enemyPool.TryDequeue(out enemy);
 
         public void EnqueueEnemy(GameObject enemy)
         {
             enemy.transform.SetParent(container);
             enemyPool.Enqueue(enemy);
         }
-
-        public bool HasNotSpawnedEnemies() => enemyPool.Any();
     }
 }
