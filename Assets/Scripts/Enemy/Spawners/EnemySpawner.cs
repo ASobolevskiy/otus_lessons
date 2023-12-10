@@ -8,6 +8,9 @@ namespace ShootEmUp
     {
         public event Action<GameObject> OnEnemySpawned;
 
+        [SerializeField]
+        private GameManager gameManager;
+
         [Header("Spawn")]
         [SerializeField]
         private EnemyPositions enemyPositions;
@@ -38,12 +41,36 @@ namespace ShootEmUp
                 {
                     enemyAttackAgent.SetTarget(character);
                     enemyAttackAgent.SetBulletSystem(bulletSystem);
+                    gameManager.AddGameFixedUpdateListener(enemyAttackAgent);
+                }
+                if(currentEnemy.TryGetComponent(out EnemyMoveAgent enemyMoveAgent))
+                {
+                    gameManager.AddGameFixedUpdateListener(enemyMoveAgent);
+                }
+                if(currentEnemy.TryGetComponent(out MoveComponentBase moveComponent))
+                {
+                    gameManager.AddGameFixedUpdateListener(moveComponent);
                 }
                 OnEnemySpawned?.Invoke(currentEnemy);
             }
         }
 
-        public void RemoveDestroyedEnemy(GameObject enemy) => enemyPool.EnqueueEnemy(enemy);
+        public void RemoveDestroyedEnemy(GameObject enemy)
+        {
+            if (currentEnemy.TryGetComponent(out EnemyAttackAgent enemyAttackAgent))
+            {
+                gameManager.RemoveGameFixedUpdateListener(enemyAttackAgent);
+            }
+            if (currentEnemy.TryGetComponent(out EnemyMoveAgent enemyMoveAgent))
+            {
+                gameManager.RemoveGameFixedUpdateListener(enemyMoveAgent);
+            }
+            if (currentEnemy.TryGetComponent(out MoveComponentBase moveComponent))
+            {
+                gameManager.RemoveGameFixedUpdateListener(moveComponent);
+            }
+            enemyPool.EnqueueEnemy(enemy);
+        }
 
         private void RestoreHpIfNeeded()
         {

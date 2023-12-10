@@ -2,7 +2,9 @@
 
 namespace ShootEmUp
 {
-    public sealed class CharacterFireController : MonoBehaviour
+    public sealed class CharacterFireController : MonoBehaviour, 
+        Listeners.IGameStartListener,
+        Listeners.IGameFinishListener
     {
         [SerializeField]
         private BulletSystem bulletSystem;
@@ -15,16 +17,6 @@ namespace ShootEmUp
 
         [SerializeField]
         private GameObject character;
-
-        private void OnEnable()
-        {
-            input.OnFire += Fire;
-        }
-
-        private void OnDisable()
-        {
-            input.OnFire -= Fire;
-        }
 
         private void Fire()
         {
@@ -39,6 +31,16 @@ namespace ShootEmUp
                 velocity = weapon.Rotation * Vector3.up * bulletConfig.speed
             });
 
+        }
+
+        public void OnGameStart()
+        {
+            input.OnFire += Fire;
+        }
+
+        public void OnGameFinish()
+        {
+            input.OnFire -= Fire;
         }
     }
 }

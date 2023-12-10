@@ -3,22 +3,24 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyManager : MonoBehaviour
+    public sealed class EnemyManager : MonoBehaviour,
+        Listeners.IGameStartListener,
+        Listeners.IGameFinishListener
     {
         [SerializeField]
         private EnemySpawner enemySpawner;
 
         private readonly HashSet<GameObject> activeEnemies = new();
 
-        private void Awake()
-        {
-            enemySpawner.OnEnemySpawned += HandleSpawnedEnemy;
-        }
+        //private void Awake()
+        //{
+        //    enemySpawner.OnEnemySpawned += HandleSpawnedEnemy;
+        //}
 
-        private void OnDestroy()
-        {
-            enemySpawner.OnEnemySpawned -= HandleSpawnedEnemy;
-        }
+        //private void OnDestroy()
+        //{
+        //    enemySpawner.OnEnemySpawned -= HandleSpawnedEnemy;
+        //}
 
         private void HandleSpawnedEnemy(GameObject enemy)
         {
@@ -35,6 +37,16 @@ namespace ShootEmUp
                 enemy.GetComponent<HitPointsComponent>().OnHpEmpty -= OnDestroyed;
                 enemySpawner.RemoveDestroyedEnemy(enemy);
             }
+        }
+
+        public void OnGameStart()
+        {
+            enemySpawner.OnEnemySpawned += HandleSpawnedEnemy;
+        }
+
+        public void OnGameFinish()
+        {
+            enemySpawner.OnEnemySpawned -= HandleSpawnedEnemy;
         }
     }
 }

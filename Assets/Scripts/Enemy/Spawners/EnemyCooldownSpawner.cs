@@ -3,7 +3,11 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyCooldownSpawner : MonoBehaviour
+    public sealed class EnemyCooldownSpawner : MonoBehaviour,
+        Listeners.IGameStartListener,
+        Listeners.IGamePauseListener,
+        Listeners.IGameResumeListener,
+        Listeners.IGameFinishListener
     {
         [SerializeField]
         private EnemySpawner enemySpawner;
@@ -11,16 +15,39 @@ namespace ShootEmUp
         [SerializeField]
         private float spawnDelayInSeconds = 1f;
 
-        //TODO Link up with gamestate
-        private readonly bool isGameRunning = true;
+        private bool isGameRunning;
 
-        private IEnumerator Start()
+        private IEnumerator StartSpawning()
         {
             while (isGameRunning)
             {
                 yield return new WaitForSeconds(spawnDelayInSeconds);
                 enemySpawner.SpawnEnemy();
             }
+        }
+
+        public void OnGameStart()
+        {
+            isGameRunning = true;
+            StartCoroutine(StartSpawning());
+        }
+
+        public void OnGamePause()
+        {
+            isGameRunning = false;
+            StopCoroutine(StartSpawning());
+        }
+
+        public void OnGameResume()
+        {
+            isGameRunning = true;
+            StartCoroutine(StartSpawning());
+        }
+
+        public void OnGameFinish()
+        {
+            isGameRunning = false;
+            StopCoroutine(StartSpawning());
         }
     }
 }

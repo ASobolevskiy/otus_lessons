@@ -3,6 +3,7 @@ using UnityEngine;
 namespace ShootEmUp
 {
     public sealed class MoveByRigidBodyComponent : MoveComponentBase
+        
     {
         [SerializeField]
         private new Rigidbody2D rigidbody2D;
@@ -12,15 +13,15 @@ namespace ShootEmUp
 
         private Vector2 direction;
 
-        public override void SetDirection(Vector2 direction)
+        public override void OnFixedUpdate(float fixedDeltaTime)
         {
-            this.direction = direction;
+            var nextPosition = rigidbody2D.position + (speed * fixedDeltaTime * direction);
+            rigidbody2D.MovePosition(nextPosition);
         }
 
-        private void FixedUpdate()
+        public override void SetDirection(Vector2 direction)    
         {
-            var nextPosition = rigidbody2D.position + (speed * Time.fixedDeltaTime * direction);
-            rigidbody2D.MovePosition(nextPosition);
+            this.direction = direction;
         }
     }
 }

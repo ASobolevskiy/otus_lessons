@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class BulletPool : MonoBehaviour
+    public sealed class BulletPool : MonoBehaviour,
+        Listeners.IGameStartListener
     {
         [SerializeField]
         private int initialCount = 50;
@@ -19,7 +20,7 @@ namespace ShootEmUp
 
         private readonly Queue<Bullet> bulletPool = new();
 
-        private void Awake()
+        public void OnGameStart()
         {
             for (var i = 0; i < initialCount; i++)
             {
@@ -46,5 +47,6 @@ namespace ShootEmUp
             bullet.transform.SetParent(container);
             bulletPool.Enqueue(bullet);
         }
+
     }
 }

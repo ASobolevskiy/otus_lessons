@@ -2,7 +2,9 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class CharacterDeathObserver : MonoBehaviour
+    public sealed class CharacterDeathObserver : MonoBehaviour,
+        Listeners.IGameStartListener,
+        Listeners.IGameFinishListener
     {
         [SerializeField]
         private GameObject character;
@@ -10,16 +12,16 @@ namespace ShootEmUp
         [SerializeField]
         private GameManager gameManager;
 
-        private void OnEnable()
+        private void OnCharacterDeath(GameObject _) => gameManager.FinishGame();
+
+        public void OnGameStart()
         {
             character.GetComponent<HitPointsComponent>().OnHpEmpty += OnCharacterDeath;
         }
 
-        private void OnDisable()
+        public void OnGameFinish()
         {
             character.GetComponent<HitPointsComponent>().OnHpEmpty -= OnCharacterDeath;
         }
-
-        private void OnCharacterDeath(GameObject _) => gameManager.FinishGame();
     }
 }

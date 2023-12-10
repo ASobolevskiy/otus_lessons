@@ -2,12 +2,13 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyAttackAgent : MonoBehaviour
+    public sealed class EnemyAttackAgent : MonoBehaviour,
+        Listeners.IGameFixedUpdateListener
     {
         [SerializeField]
         private WeaponComponent weaponComponent;
 
-        //TODO This breaks game, DI needed
+        //TODO Should inject this with DI
         private BulletSystem bulletSystem;
 
         [SerializeField]
@@ -42,7 +43,7 @@ namespace ShootEmUp
             currentTime = countdown;
         }
 
-        private void FixedUpdate()
+        public void OnFixedUpdate(float fixedDeltaTime)
         {
             if (!readyForAttack)
             {
@@ -54,7 +55,7 @@ namespace ShootEmUp
                 return;
             }
 
-            currentTime -= Time.fixedDeltaTime;
+            currentTime -= fixedDeltaTime;
             if (currentTime <= 0)
             {
                 Fire();
@@ -77,5 +78,6 @@ namespace ShootEmUp
                 velocity = direction * 2.0f
             });
         }
+
     }
 }
