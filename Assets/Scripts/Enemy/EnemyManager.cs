@@ -15,6 +15,11 @@ namespace ShootEmUp
             enemySpawner.OnEnemySpawned += HandleSpawnedEnemy;
         }
 
+        private void OnDestroy()
+        {
+            enemySpawner.OnEnemySpawned -= HandleSpawnedEnemy;
+        }
+
         private void HandleSpawnedEnemy(GameObject enemy)
         {
             if (activeEnemies.Add(enemy))

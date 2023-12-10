@@ -2,7 +2,7 @@
 
 namespace ShootEmUp
 {
-    public sealed class MoveController : MonoBehaviour
+    public sealed class CharacterMoveController : MonoBehaviour
     {
         [SerializeField]
         private InputSystem input;

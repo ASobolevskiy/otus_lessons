@@ -1,7 +1,6 @@
-﻿using ShootEmUp;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Assets.Scripts.Enemy.Controllers
+namespace ShootEmUp
 {
     public sealed class EnemyDestinationReachedController : MonoBehaviour
     {
@@ -13,6 +12,11 @@ namespace Assets.Scripts.Enemy.Controllers
         private void Awake()
         {
             moveAgent.OnDestinationReached += HandleDestinationReached;
+        }
+
+        private void OnDestroy()
+        {
+            moveAgent.OnDestinationReached -= HandleDestinationReached;
         }
 
         private void HandleDestinationReached()

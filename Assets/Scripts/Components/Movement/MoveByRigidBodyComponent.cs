@@ -19,7 +19,7 @@ namespace ShootEmUp
 
         private void FixedUpdate()
         {
-            var nextPosition = rigidbody2D.position + direction * speed * Time.fixedDeltaTime;
+            var nextPosition = rigidbody2D.position + (speed * Time.fixedDeltaTime * direction);
             rigidbody2D.MovePosition(nextPosition);
         }
     }

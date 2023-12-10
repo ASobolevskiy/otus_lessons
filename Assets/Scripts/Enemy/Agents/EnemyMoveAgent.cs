@@ -31,7 +31,7 @@ namespace ShootEmUp
             }
 
             var vector = destination - (Vector2)transform.position;
-            if (vector.magnitude <= moveThreshold)
+            if (vector.sqrMagnitude <= moveThreshold * moveThreshold)
             {
                 isReached = true;
                 moveComponent.SetDirection(Vector2.zero);

@@ -2,7 +2,7 @@
 
 namespace ShootEmUp
 {
-    public sealed class FireController : MonoBehaviour
+    public sealed class CharacterFireController : MonoBehaviour
     {
         [SerializeField]
         private BulletSystem bulletSystem;
