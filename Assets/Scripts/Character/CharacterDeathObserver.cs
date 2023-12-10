@@ -5,10 +5,10 @@ namespace ShootEmUp
     public sealed class CharacterDeathObserver : MonoBehaviour
     {
         [SerializeField]
-        GameObject character;
+        private GameObject character;
 
         [SerializeField]
-        GameManager gameManager;
+        private GameManager gameManager;
 
         private void OnEnable()
         {

@@ -5,12 +5,12 @@ namespace ShootEmUp
     public sealed class MoveByRigidBodyComponent : MoveComponentBase
     {
         [SerializeField]
-        new Rigidbody2D rigidbody2D;
+        private new Rigidbody2D rigidbody2D;
 
         [SerializeField]
-        float speed = 5.0f;
+        private float speed = 5.0f;
 
-        Vector2 direction;
+        private Vector2 direction;
 
         public override void SetDirection(Vector2 direction)
         {

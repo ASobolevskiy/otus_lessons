@@ -1,20 +1,15 @@
 ﻿using ShootEmUp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Scripts.Enemy.Controllers
 {
-    class EnemyDestinationReachedController : MonoBehaviour
+    public sealed class EnemyDestinationReachedController : MonoBehaviour
     {
         [SerializeField]
-        EnemyMoveAgent moveAgent;
+        private EnemyMoveAgent moveAgent;
 
         [SerializeField]
-        EnemyAttackAgent attackAgent;
+        private EnemyAttackAgent attackAgent;
         private void Awake()
         {
             moveAgent.OnDestinationReached += HandleDestinationReached;

@@ -10,6 +10,6 @@ namespace ShootEmUp
         }
 
         [SerializeField]
-        bool isPlayer;
+        private bool isPlayer;
     }
 }

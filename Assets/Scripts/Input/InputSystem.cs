@@ -6,8 +6,8 @@ namespace ShootEmUp
     public sealed class InputSystem : MonoBehaviour
     {
 
-        public Action OnFire;
-        public Action<Vector2> OnMove;
+        public event Action OnFire;
+        public event Action<Vector2> OnMove;
 
         private void Update()
         {
@@ -18,7 +18,7 @@ namespace ShootEmUp
             OnMove?.Invoke(GetMovementDirection());
         }
 
-        Vector2 GetMovementDirection()
+        private Vector2 GetMovementDirection()
         {
             if (Input.GetKey(KeyCode.LeftArrow))
                 return Vector2.left;

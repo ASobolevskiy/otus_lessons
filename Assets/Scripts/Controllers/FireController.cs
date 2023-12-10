@@ -2,19 +2,19 @@
 
 namespace ShootEmUp
 {
-    class FireController : MonoBehaviour
+    public sealed class FireController : MonoBehaviour
     {
         [SerializeField]
-        BulletSystem bulletSystem;
+        private BulletSystem bulletSystem;
 
         [SerializeField]
-        BulletConfig bulletConfig;
+        private BulletConfig bulletConfig;
 
         [SerializeField]
-        InputSystem input;
+        private InputSystem input;
 
         [SerializeField]
-        GameObject character;
+        private GameObject character;
 
         private void OnEnable()
         {

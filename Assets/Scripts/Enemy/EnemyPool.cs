@@ -8,17 +8,17 @@ namespace ShootEmUp
     {
         [Header("Pool")]
         [SerializeField]
-        Transform container;
+        private Transform container;
 
         [SerializeField]
-        GameObject prefab;
+        private GameObject prefab;
 
         [SerializeField]
         public int maxEnemies = 7;
 
-        readonly Queue<GameObject> enemyPool = new();
+        private readonly Queue<GameObject> enemyPool = new();
 
-        void Awake()
+        private void Awake()
         {
             for (var i = 0; i < maxEnemies; i++)
             {

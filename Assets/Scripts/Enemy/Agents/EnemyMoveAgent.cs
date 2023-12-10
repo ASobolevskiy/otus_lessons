@@ -5,16 +5,16 @@ namespace ShootEmUp
 {
     public sealed class EnemyMoveAgent : MonoBehaviour
     {
-        public Action OnDestinationReached;
+        public event Action OnDestinationReached;
 
         [SerializeField]
-        MoveComponentBase moveComponent;
+        private MoveComponentBase moveComponent;
 
         [SerializeField]
-        float moveThreshold = 0.25f;
+        private float moveThreshold = 0.25f;
 
-        Vector2 destination;
-        bool isReached;
+        private Vector2 destination;
+        private bool isReached;
 
 
         public void SetDestination(Vector2 endPoint)

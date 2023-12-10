@@ -8,10 +8,10 @@ namespace ShootEmUp
         public event Action<GameObject> OnHpEmpty;
 
         [SerializeField]
-        int hitPoints;
+        private int hitPoints;
 
         [SerializeField]
-        int maxHp = 3;
+        private int maxHp = 3;
 
         public bool IsHitPointsExists()
         {

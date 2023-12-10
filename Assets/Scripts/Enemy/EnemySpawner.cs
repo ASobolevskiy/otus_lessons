@@ -4,33 +4,33 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    class EnemySpawner : MonoBehaviour
+    public sealed class EnemySpawner : MonoBehaviour
     {
-        public Action<GameObject> OnEnemySpawned;
+        public event Action<GameObject> OnEnemySpawned;
 
         [Header("Spawn")]
         [SerializeField]
-        EnemyPositions enemyPositions;
+        private EnemyPositions enemyPositions;
 
         [SerializeField]
-        EnemyPool enemyPool;
+        private EnemyPool enemyPool;
 
         [SerializeField]
-        Transform worldTransform;
+        private Transform worldTransform;
 
         [SerializeField]
-        GameObject character;
+        private GameObject character;
 
         [SerializeField]
-        BulletSystem bulletSystem;
+        private BulletSystem bulletSystem;
 
         [SerializeField]
-        float spawnDelayInSeconds = 1f;
+        private float spawnDelayInSeconds = 1f;
 
         //TODO Link up with gamestate
-        readonly bool isGameRunning = true;
+        private readonly bool isGameRunning = true;
 
-        GameObject currentEnemy;
+        private GameObject currentEnemy;
 
         private IEnumerator Start()
         {
@@ -59,7 +59,7 @@ namespace ShootEmUp
 
         public void RemoveDestroyedEnemy(GameObject enemy) => enemyPool.EnqueueEnemy(enemy);
 
-        void RestoreHpIfNeeded()
+        private void RestoreHpIfNeeded()
         {
             if (currentEnemy.TryGetComponent<HitPointsComponent>(out var hpComponent) && !hpComponent.IsHitPointsExists())
             {
@@ -67,13 +67,13 @@ namespace ShootEmUp
             }
         }
 
-        void SetSpawnPosition()
+        private void SetSpawnPosition()
         {
             var spawnPosition = enemyPositions.RandomSpawnPosition();
             currentEnemy.transform.position = spawnPosition.position;
         }
 
-        void SetAttackPosition()
+        private void SetAttackPosition()
         {
             var attackPosition = enemyPositions.RandomAttackPosition();
             currentEnemy.GetComponent<EnemyMoveAgent>().SetDestination(attackPosition.position);

@@ -5,21 +5,21 @@ namespace ShootEmUp
     public sealed class EnemyAttackAgent : MonoBehaviour
     {
         [SerializeField]
-        WeaponComponent weaponComponent;
+        private WeaponComponent weaponComponent;
 
         //TODO This breaks game, DI needed
-        BulletSystem bulletSystem;
+        private BulletSystem bulletSystem;
 
         [SerializeField]
-        EnemyMoveAgent moveAgent;
+        private EnemyMoveAgent moveAgent;
 
         [SerializeField]
-        float countdown;
+        private float countdown;
 
-        GameObject target;
-        float currentTime;
+        private GameObject target;
+        private float currentTime;
 
-        bool readyForAttack;
+        private bool readyForAttack;
 
         public void SetTarget(GameObject target)
         {

@@ -6,13 +6,13 @@ namespace ShootEmUp
     public sealed partial class BulletSystem : MonoBehaviour
     {
         [SerializeField]
-        LevelBounds levelBounds;
+        private LevelBounds levelBounds;
 
         [SerializeField]
-        BulletPool bulletPool;
+        private BulletPool bulletPool;
 
-        readonly HashSet<Bullet> activeBullets = new();
-        readonly List<Bullet> cache = new();
+        private readonly HashSet<Bullet> activeBullets = new();
+        private readonly List<Bullet> cache = new();
 
         private void FixedUpdate()
         {

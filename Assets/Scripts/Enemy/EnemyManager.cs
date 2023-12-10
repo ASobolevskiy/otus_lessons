@@ -6,11 +6,11 @@ namespace ShootEmUp
     public sealed class EnemyManager : MonoBehaviour
     {
         [SerializeField]
-        EnemySpawner enemySpawner;
+        private EnemySpawner enemySpawner;
 
         private readonly HashSet<GameObject> activeEnemies = new();
 
-        void Awake()
+        private void Awake()
         {
             enemySpawner.OnEnemySpawned += HandleSpawnedEnemy;
         }

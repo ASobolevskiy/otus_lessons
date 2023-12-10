@@ -14,10 +14,10 @@ namespace ShootEmUp
         public int damage;
 
         [SerializeField]
-        new Rigidbody2D rigidbody2D;
+        private new Rigidbody2D rigidbody2D;
 
         [SerializeField]
-        SpriteRenderer spriteRenderer;
+        private SpriteRenderer spriteRenderer;
 
         private void OnCollisionEnter2D(Collision2D collision)
         {

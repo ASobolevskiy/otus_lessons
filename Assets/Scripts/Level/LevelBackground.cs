@@ -5,22 +5,17 @@ namespace ShootEmUp
 {
     public sealed class LevelBackground : MonoBehaviour
     {
-        float startPositionY;
-
-        float endPositionY;
-
-        float movingSpeedY;
-
-        float positionX;
-
-        float positionZ;
-
-        Transform myTransform;
+        private float startPositionY;
+        private float endPositionY;
+        private float movingSpeedY;
+        private float positionX;
+        private float positionZ;
+        private Transform myTransform;
 
         [SerializeField]
-        Params parameters;
+        private Params parameters;
 
-        void Awake()
+        private void Awake()
         {
             startPositionY = parameters.startPositionY;
             endPositionY = parameters.endPositionY;
@@ -31,7 +26,7 @@ namespace ShootEmUp
             positionZ = position.z;
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             if (myTransform.position.y <= endPositionY)
             {
@@ -52,13 +47,8 @@ namespace ShootEmUp
         [Serializable]
         public sealed class Params
         {
-            [SerializeField]
             public float startPositionY;
-
-            [SerializeField]
             public float endPositionY;
-
-            [SerializeField]
             public float movingSpeedY;
         }
     }

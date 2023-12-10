@@ -2,13 +2,13 @@
 
 namespace ShootEmUp
 {
-    class MoveController : MonoBehaviour
+    public sealed class MoveController : MonoBehaviour
     {
         [SerializeField]
-        InputSystem input;
+        private InputSystem input;
 
         [SerializeField]
-        GameObject character;
+        private GameObject character;
 
         private void OnEnable()
         {
