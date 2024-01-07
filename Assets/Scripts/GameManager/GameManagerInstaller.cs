@@ -24,6 +24,7 @@ namespace ShootEmUp
             gameManager.AddGameFinishListeners(finishGameListeners);
             gameManager.AddGameUpdateListeners(updateListeners);
             gameManager.AddGameFixedUpdateListeners(fixedUpdateListeners);
+            gameManager.HandleStart();
         }
     }
 }

@@ -57,15 +57,15 @@ namespace ShootEmUp
 
         public void RemoveDestroyedEnemy(GameObject enemy)
         {
-            if (currentEnemy.TryGetComponent(out EnemyAttackAgent enemyAttackAgent))
+            if (enemy.TryGetComponent(out EnemyAttackAgent enemyAttackAgent))
             {
                 gameManager.RemoveGameFixedUpdateListener(enemyAttackAgent);
             }
-            if (currentEnemy.TryGetComponent(out EnemyMoveAgent enemyMoveAgent))
+            if (enemy.TryGetComponent(out EnemyMoveAgent enemyMoveAgent))
             {
                 gameManager.RemoveGameFixedUpdateListener(enemyMoveAgent);
             }
-            if (currentEnemy.TryGetComponent(out MoveComponentBase moveComponent))
+            if (enemy.TryGetComponent(out MoveComponentBase moveComponent))
             {
                 gameManager.RemoveGameFixedUpdateListener(moveComponent);
             }

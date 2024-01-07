@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace ShootEmUp
 {
@@ -85,6 +86,7 @@ namespace ShootEmUp
                 Debug.Log("Game finished!");
                 gameState = GameState.Finish;
                 gameFinishListeners.ForEach(l => l.OnGameFinish());
+                SceneManager.LoadScene(0);
             }
             else
             {
