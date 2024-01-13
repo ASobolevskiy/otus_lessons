@@ -2,39 +2,40 @@
 {
     public sealed class Listeners
     {
-        public interface IGameStartListener
+        public interface IGameListener { }
+        public interface IGameStartListener : IGameListener
         {
             void OnGameStart();
         }
 
-        public interface IGameFinishListener
+        public interface IGameFinishListener : IGameListener
         {
             void OnGameFinish();
         }
 
-        public interface IGamePauseListener
+        public interface IGamePauseListener : IGameListener
         {
             void OnGamePause();
         }
 
-        public interface IGameResumeListener
+        public interface IGameResumeListener : IGameListener
         {
             void OnGameResume();
         }
 
-        public interface IGameUpdateListener
+        public interface IGameUpdateListener : IGameListener
         {
-            void OnUpdate();
+            void OnUpdate(float deltaTime);
         }
 
-        public interface IGameFixedUpdateListener
+        public interface IGameFixedUpdateListener : IGameListener
         {
             void OnFixedUpdate(float fixedDeltaTime);
         }
 
-        public interface IGameLateUpdateListener
-        {
-            void OnLateUpdate();
-        }
+        //public interface IGameLateUpdateListener : IGameListener
+        //{
+        //    void OnLateUpdate();
+        //}
     }
 }

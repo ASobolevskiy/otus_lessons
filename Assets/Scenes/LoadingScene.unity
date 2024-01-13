@@ -132,7 +132,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 159706061}
-  - component: {fileID: 159706062}
+  - component: {fileID: 159706063}
+  - component: {fileID: 159706064}
   m_Layer: 0
   m_Name: '[System]'
   m_TagString: Untagged
@@ -155,7 +156,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &159706062
+--- !u!114 &159706063
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -164,11 +165,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 159706060}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd1ee883ea27e664880772b5a034d6ef, type: 3}
+  m_Script: {fileID: 11500000, guid: 289cdd06383700c4682f54bad7f72afd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  countdownField: {fileID: 824345946}
   timeInterval: 3
+--- !u!114 &159706064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 159706060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4af612244a03344e9319b86fdf51f8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: {fileID: 159706063}
+  sceneIndexToLoad: 1
 --- !u!1 &824345946
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,6 +194,7 @@ GameObject:
   - component: {fileID: 824345947}
   - component: {fileID: 824345949}
   - component: {fileID: 824345948}
+  - component: {fileID: 824345950}
   m_Layer: 5
   m_Name: CountdownText
   m_TagString: Untagged
@@ -304,6 +319,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 824345946}
   m_CullTransparentMesh: 1
+--- !u!114 &824345950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824345946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66a01fc57ac8ae743866850734952423, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: {fileID: 159706063}
+  countdownField: {fileID: 824345946}
 --- !u!1 &924953082
 GameObject:
   m_ObjectHideFlags: 0
@@ -850,19 +879,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1979789607}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1979789609}
-        m_TargetAssemblyTypeName: ShootEmUp.UI.StartButtonScript, Assembly-CSharp
-        m_MethodName: OnStartButtonClicked
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1979789607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -913,7 +930,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14378741782ef7945b66544c04da16e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  countDownMngr: {fileID: 159706062}
+  timer: {fileID: 159706063}
+  startButton: {fileID: 1979789606}
 --- !u!1 &2082280319
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ namespace ShootEmUp
         [SerializeField]
         private GameManager gameManager;
 
-        private void OnCharacterDeath(GameObject _) => gameManager.FinishGame();
+        private void OnCharacterDeath(GameObject _) => gameManager.HandleFinish();
 
         public void OnGameStart()
         {

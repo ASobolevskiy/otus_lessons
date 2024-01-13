@@ -3,10 +3,13 @@
 namespace ShootEmUp
 {
     public abstract class MoveComponentBase : MonoBehaviour, 
-        Listeners.IGameFixedUpdateListener
+        Listeners.IGameListener
     {
-        public abstract void OnFixedUpdate(float fixedDeltaTime);
+        protected Vector2 moveDirection;
 
-        public abstract void SetDirection(Vector2 direction);
+        public virtual void SetDirection(Vector2 direction)
+        {
+            moveDirection = direction;
+        }
     }
 }

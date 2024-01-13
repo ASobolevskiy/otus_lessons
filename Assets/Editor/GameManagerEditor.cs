@@ -9,7 +9,7 @@ public class GameManagerEditor : Editor
     {
         GameManager gManager = (GameManager)target;
 
-        EditorGUILayout.LabelField("Game State", gManager.gameState.ToString());
+        EditorGUILayout.LabelField("Game State", gManager.GameState.ToString());
 
         if (GUILayout.Button("Start game"))
         {

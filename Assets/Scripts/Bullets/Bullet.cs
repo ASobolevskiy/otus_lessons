@@ -7,11 +7,9 @@ namespace ShootEmUp
     {
         public event Action<Bullet, Collision2D> OnCollisionEntered;
 
-        [NonSerialized]
-        public bool isPlayer;
+        public bool IsPlayer { get; set; }
 
-        [NonSerialized]
-        public int damage;
+        public int Damage { get; set; }
 
         [SerializeField]
         private new Rigidbody2D rigidbody2D;
@@ -27,14 +25,14 @@ namespace ShootEmUp
                 return;
             }
 
-            if (isPlayer == team.IsPlayer)
+            if (IsPlayer == team.IsPlayer)
             {
                 return;
             }
 
             if (collision.gameObject.TryGetComponent(out HitPointsComponent hitPoints))
             {
-                hitPoints.TakeDamage(damage);
+                hitPoints.TakeDamage(Damage);
             }
         }
 

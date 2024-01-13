@@ -12,16 +12,6 @@ namespace ShootEmUp
 
         private readonly HashSet<GameObject> activeEnemies = new();
 
-        //private void Awake()
-        //{
-        //    enemySpawner.OnEnemySpawned += HandleSpawnedEnemy;
-        //}
-
-        //private void OnDestroy()
-        //{
-        //    enemySpawner.OnEnemySpawned -= HandleSpawnedEnemy;
-        //}
-
         private void HandleSpawnedEnemy(GameObject enemy)
         {
             if (activeEnemies.Add(enemy))

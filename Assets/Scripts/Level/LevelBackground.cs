@@ -1,9 +1,9 @@
-using System;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class LevelBackground : MonoBehaviour
+    public sealed class LevelBackground : MonoBehaviour,
+        Listeners.IGameFixedUpdateListener
     {
         private float startPositionY;
         private float endPositionY;
@@ -13,7 +13,11 @@ namespace ShootEmUp
         private Transform myTransform;
 
         [SerializeField]
-        private Params parameters;
+        private LevelBackgoundParams parameters;
+
+        [SerializeField]
+        private GameManager gameManager;
+
 
         private void Awake()
         {
@@ -24,9 +28,15 @@ namespace ShootEmUp
             var position = myTransform.position;
             positionX = position.x;
             positionZ = position.z;
+            gameManager.AddGameListener(this);
         }
 
-        private void FixedUpdate()
+        private void OnDestroy()
+        {
+            gameManager.RemoveGameListener(this);
+        }
+
+        public void OnFixedUpdate(float fixedDeltaTime)
         {
             if (myTransform.position.y <= endPositionY)
             {
@@ -39,17 +49,9 @@ namespace ShootEmUp
 
             myTransform.position -= new Vector3(
                 positionX,
-                movingSpeedY * Time.fixedDeltaTime,
+                movingSpeedY * fixedDeltaTime,
                 positionZ
             );
-        }
-
-        [Serializable]
-        public sealed class Params
-        {
-            public float startPositionY;
-            public float endPositionY;
-            public float movingSpeedY;
         }
     }
 }

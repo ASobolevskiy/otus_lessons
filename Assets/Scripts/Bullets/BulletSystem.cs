@@ -15,7 +15,7 @@ namespace ShootEmUp
         private readonly HashSet<Bullet> activeBullets = new();
         private readonly List<Bullet> cache = new();
 
-        public void OnUpdate()
+        public void OnUpdate(float detaTime)
         {
             cache.Clear();
             cache.AddRange(activeBullets);
@@ -34,12 +34,12 @@ namespace ShootEmUp
         {
             var bullet = bulletPool.GetBullet();
 
-            bullet.SetPosition(args.position);
-            bullet.SetColor(args.color);
-            bullet.SetPhysicsLayer(args.physicsLayer);
-            bullet.damage = args.damage;
-            bullet.isPlayer = args.isPlayer;
-            bullet.SetVelocity(args.velocity);
+            bullet.SetPosition(args.Position);
+            bullet.SetColor(args.Color);
+            bullet.SetPhysicsLayer(args.PhysicsLayer);
+            bullet.Damage = args.Damage;
+            bullet.IsPlayer = args.IsPlayer;
+            bullet.SetVelocity(args.Velocity);
 
             if (activeBullets.Add(bullet))
             {

@@ -41,15 +41,15 @@ namespace ShootEmUp
                 {
                     enemyAttackAgent.SetTarget(character);
                     enemyAttackAgent.SetBulletSystem(bulletSystem);
-                    gameManager.AddGameFixedUpdateListener(enemyAttackAgent);
+                    gameManager.AddGameListener(enemyAttackAgent);
                 }
                 if(currentEnemy.TryGetComponent(out EnemyMoveAgent enemyMoveAgent))
                 {
-                    gameManager.AddGameFixedUpdateListener(enemyMoveAgent);
+                    gameManager.AddGameListener(enemyMoveAgent);
                 }
                 if(currentEnemy.TryGetComponent(out MoveComponentBase moveComponent))
                 {
-                    gameManager.AddGameFixedUpdateListener(moveComponent);
+                    gameManager.AddGameListener(moveComponent);
                 }
                 OnEnemySpawned?.Invoke(currentEnemy);
             }
@@ -59,15 +59,15 @@ namespace ShootEmUp
         {
             if (enemy.TryGetComponent(out EnemyAttackAgent enemyAttackAgent))
             {
-                gameManager.RemoveGameFixedUpdateListener(enemyAttackAgent);
+                gameManager.RemoveGameListener(enemyAttackAgent);
             }
             if (enemy.TryGetComponent(out EnemyMoveAgent enemyMoveAgent))
             {
-                gameManager.RemoveGameFixedUpdateListener(enemyMoveAgent);
+                gameManager.RemoveGameListener(enemyMoveAgent);
             }
             if (enemy.TryGetComponent(out MoveComponentBase moveComponent))
             {
-                gameManager.RemoveGameFixedUpdateListener(moveComponent);
+                gameManager.RemoveGameListener(moveComponent);
             }
             enemyPool.EnqueueEnemy(enemy);
         }

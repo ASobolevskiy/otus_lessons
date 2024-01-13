@@ -11,19 +11,21 @@ namespace ShootEmUp
         {
             gameManager = GetComponent<GameManager>();
 
-            Listeners.IGameStartListener[] startGameListeners = GetComponentsInChildren<Listeners.IGameStartListener>();
-            Listeners.IGamePauseListener[] pauseGameListeners = GetComponentsInChildren<Listeners.IGamePauseListener>();
-            Listeners.IGameResumeListener[] resumeGameListeners = GetComponentsInChildren<Listeners.IGameResumeListener>();
-            Listeners.IGameFinishListener[] finishGameListeners = GetComponentsInChildren<Listeners.IGameFinishListener>();
-            Listeners.IGameUpdateListener[] updateListeners = GetComponentsInChildren<Listeners.IGameUpdateListener>();
-            Listeners.IGameFixedUpdateListener[] fixedUpdateListeners = GetComponentsInChildren<Listeners.IGameFixedUpdateListener>();
+            var listeners = GetComponentsInChildren<Listeners.IGameListener>();
+            //Listeners.IGameStartListener[] startGameListeners = GetComponentsInChildren<Listeners.IGameStartListener>();
+            //Listeners.IGamePauseListener[] pauseGameListeners = GetComponentsInChildren<Listeners.IGamePauseListener>();
+            //Listeners.IGameResumeListener[] resumeGameListeners = GetComponentsInChildren<Listeners.IGameResumeListener>();
+            //Listeners.IGameFinishListener[] finishGameListeners = GetComponentsInChildren<Listeners.IGameFinishListener>();
+            //Listeners.IGameUpdateListener[] updateListeners = GetComponentsInChildren<Listeners.IGameUpdateListener>();
+            //Listeners.IGameFixedUpdateListener[] fixedUpdateListeners = GetComponentsInChildren<Listeners.IGameFixedUpdateListener>();
 
-            gameManager.AddGameStartListeners(startGameListeners);
-            gameManager.AddGamePauseListeners(pauseGameListeners);
-            gameManager.AddGameResumeListeners(resumeGameListeners);
-            gameManager.AddGameFinishListeners(finishGameListeners);
-            gameManager.AddGameUpdateListeners(updateListeners);
-            gameManager.AddGameFixedUpdateListeners(fixedUpdateListeners);
+            gameManager.AddGameListeners(listeners);
+            //gameManager.AddGameListeners(startGameListeners);
+            //gameManager.AddGameListeners(pauseGameListeners);
+            //gameManager.AddGameListeners(resumeGameListeners);
+            //gameManager.AddGameListeners(finishGameListeners);
+            //gameManager.AddGameListeners(updateListeners);
+            //gameManager.AddGameListeners(fixedUpdateListeners);
             gameManager.HandleStart();
         }
     }

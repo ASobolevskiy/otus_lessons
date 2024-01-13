@@ -7,8 +7,10 @@ namespace ShootEmUp
 {
     public sealed class GameManager : MonoBehaviour
     {
-        [NonSerialized]
-        public GameState gameState = GameState.None;
+        public event Action GameFinished;
+        public GameState GameState { get; private set; } = GameState.None;
+
+        private List<Listeners.IGameListener> gameListeners = new();
 
         private List<Listeners.IGameStartListener> gameStartListeners = new();
         private List<Listeners.IGamePauseListener> gamePauseListeners = new();
@@ -17,29 +19,66 @@ namespace ShootEmUp
         private List<Listeners.IGameUpdateListener> gameUpdateListeners = new();
         private List<Listeners.IGameFixedUpdateListener> gameFixedUpdateListeners = new();
 
-        public void AddGameStartListeners(Listeners.IGameStartListener[] listeners) => gameStartListeners.AddRange(listeners);
+        public void AddGameListener(Listeners.IGameListener listener)
+        {
+            gameListeners.Add(listener);
 
-        public void AddGamePauseListeners(Listeners.IGamePauseListener[] listeners) => gamePauseListeners.AddRange(listeners);
+            if (listener is Listeners.IGameStartListener gameStartListener)
+                gameStartListeners.Add(gameStartListener);
+            if (listener is Listeners.IGamePauseListener gamePauseListener)
+                gamePauseListeners.Add(gamePauseListener);
+            if (listener is Listeners.IGameResumeListener gameResumeListener)
+                gameResumeListeners.Add(gameResumeListener);
+            if (listener is Listeners.IGameFinishListener gameFinishListener)
+                gameFinishListeners.Add(gameFinishListener);
+            if (listener is Listeners.IGameUpdateListener gameUpdateListener)
+                gameUpdateListeners.Add(gameUpdateListener);
+            if (listener is Listeners.IGameFixedUpdateListener gameFixedUpdateListener)
+                gameFixedUpdateListeners.Add(gameFixedUpdateListener);
+        }
 
-        public void AddGameResumeListeners(Listeners.IGameResumeListener[] listeners) => gameResumeListeners.AddRange(listeners);
+        public void RemoveGameListener(Listeners.IGameListener listener)
+        {
+            gameListeners.Remove(listener);
 
-        public void AddGameFinishListeners(Listeners.IGameFinishListener[] listeners) => gameFinishListeners.AddRange(listeners);
+            if (listener is Listeners.IGameStartListener gameStartListener)
+                gameStartListeners.Remove(gameStartListener);
+            if (listener is Listeners.IGamePauseListener gamePauseListener)
+                gamePauseListeners.Remove(gamePauseListener);
+            if (listener is Listeners.IGameResumeListener gameResumeListener)
+                gameResumeListeners.Remove(gameResumeListener);
+            if (listener is Listeners.IGameFinishListener gameFinishListener)
+                gameFinishListeners.Remove(gameFinishListener);
+            if (listener is Listeners.IGameUpdateListener gameUpdateListener)
+                gameUpdateListeners.Remove(gameUpdateListener);
+            if (listener is Listeners.IGameFixedUpdateListener gameFixedUpdateListener)
+                gameFixedUpdateListeners.Remove(gameFixedUpdateListener);
 
-        public void AddGameUpdateListeners(Listeners.IGameUpdateListener[] listeners) => gameUpdateListeners.AddRange(listeners);
+        }
 
-        public void AddGameFixedUpdateListener(Listeners.IGameFixedUpdateListener listener) => gameFixedUpdateListeners.Add(listener);
+        public void AddGameListeners(Listeners.IGameListener[] listeners)
+        {
+            for(int i = 0; i < listeners.Length; i++)
+            {
+                AddGameListener(listeners[i]);
+            }
+        }
 
-        public void AddGameFixedUpdateListeners(Listeners.IGameFixedUpdateListener[] listeners) => gameFixedUpdateListeners.AddRange(listeners);
-
-        public void RemoveGameFixedUpdateListener(Listeners.IGameFixedUpdateListener listener) => gameFixedUpdateListeners.Remove(listener);
+        public void AddGameListeners(List<Listeners.IGameListener> listeners)
+        {
+            for (int i = 0; i < listeners.Count; i++)
+            {
+                AddGameListener(listeners[i]);
+            }
+        }
 
         public void HandleStart()
         {
-            if(gameState == GameState.None)
+            if(GameState == GameState.None)
             {
                 Debug.Log("Game started!");
-                gameState = GameState.Start;
-                var scale = Time.timeScale;
+                GameState = GameState.Playing;
+                Time.timeScale = 1;
                 gameStartListeners.ForEach(l => l.OnGameStart());
             }
             else
@@ -50,10 +89,10 @@ namespace ShootEmUp
 
         public void HandlePause()
         {
-            if(gameState == GameState.Start || gameState == GameState.Resume)
+            if(GameState == GameState.Playing)
             {
                 Debug.Log("Game paused!");
-                gameState = GameState.Pause;
+                GameState = GameState.Paused;
                 Time.timeScale = 0;
                 gamePauseListeners.ForEach(l => l.OnGamePause());
             }
@@ -66,10 +105,10 @@ namespace ShootEmUp
 
         public void HandleResume()
         {
-            if(gameState == GameState.Pause)
+            if(GameState == GameState.Paused)
             {
                 Debug.Log("Game resumed!");
-                gameState = GameState.Resume;
+                GameState = GameState.Playing;
                 Time.timeScale = 1;
                 gameResumeListeners.ForEach(l => l.OnGameResume());
             }
@@ -81,12 +120,13 @@ namespace ShootEmUp
 
         public void HandleFinish()
         {
-            if(gameState != GameState.None)
+            if(GameState != GameState.None && GameState != GameState.Finished)
             {
                 Debug.Log("Game finished!");
-                gameState = GameState.Finish;
+                GameState = GameState.Finished;
+                Time.timeScale = 0;
                 gameFinishListeners.ForEach(l => l.OnGameFinish());
-                SceneManager.LoadScene(0);
+                GameFinished?.Invoke();
             }
             else
             {
@@ -94,26 +134,22 @@ namespace ShootEmUp
             }
         }
 
-        public void FinishGame()
-        {
-            Time.timeScale = 0;
-            HandleFinish();
-        }
+
 
         private void Update()
         {
-            if(gameState == GameState.Start || gameState == GameState.Resume)
+            if(GameState == GameState.Playing)
             {
                 for (int i = 0; i < gameUpdateListeners.Count; i++)
                 {
-                    gameUpdateListeners[i].OnUpdate();
+                    gameUpdateListeners[i].OnUpdate(Time.deltaTime);
                 }
             }
         }
 
         private void FixedUpdate()
         {
-            if(gameState == GameState.Start || gameState == GameState.Resume)
+            if(GameState == GameState.Playing)
             {
                 for (int i = 0; i < gameFixedUpdateListeners.Count; i++)
                 {

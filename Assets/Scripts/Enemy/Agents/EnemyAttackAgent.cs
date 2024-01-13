@@ -70,12 +70,12 @@ namespace ShootEmUp
             var direction = vector.normalized;
             bulletSystem.FlyBulletByArgs(new BulletSystem.Args
             {
-                isPlayer = false,
-                physicsLayer = (int)PhysicsLayer.ENEMY_BULLET,
-                color = Color.red,
-                damage = 1,
-                position = startPosition,
-                velocity = direction * 2.0f
+                IsPlayer = false,
+                PhysicsLayer = (int)PhysicsLayer.ENEMY_BULLET,
+                Color = Color.red,
+                Damage = 1,
+                Position = startPosition,
+                Velocity = direction * 2.0f
             });
         }
 
