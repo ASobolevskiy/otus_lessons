@@ -1,23 +1,25 @@
-﻿using UnityEngine;
+﻿using ShootEmUp.DI;
+using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class CharacterFireController : MonoBehaviour, 
+    public sealed class CharacterFireController : 
         Listeners.IGameStartListener,
         Listeners.IGameFinishListener
     {
-        [SerializeField]
+        private InputSystem input;
+        private GameObject character;
         private BulletSystem bulletSystem;
-
-        [SerializeField]
         private BulletConfig bulletConfig;
 
-        [SerializeField]
-        private InputSystem input;
-
-        [SerializeField]
-        private GameObject character;
-
+        public void Construct(GameObject character, BulletSystem bulletSystem, BulletConfig bulletConfig, InputSystem inputSystem)
+        {
+            Debug.Log($"{nameof(CharacterFireController)} Construct called!");
+            this.character = character;
+            this.bulletSystem = bulletSystem;
+            this.bulletConfig = bulletConfig;
+            input = inputSystem;
+        }
         private void Fire()
         {
             var weapon = character.GetComponent<WeaponComponent>();

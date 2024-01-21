@@ -1,3 +1,4 @@
+using ShootEmUp.DI;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,6 @@ namespace ShootEmUp
     public sealed partial class BulletSystem : MonoBehaviour,
         Listeners.IGameUpdateListener
     {
-        [SerializeField]
         private LevelBounds levelBounds;
 
         [SerializeField]
@@ -14,6 +14,12 @@ namespace ShootEmUp
 
         private readonly HashSet<Bullet> activeBullets = new();
         private readonly List<Bullet> cache = new();
+
+        [Inject]
+        public void Construct(LevelBounds levelBounds)
+        {
+            this.levelBounds = levelBounds;
+        }
 
         public void OnUpdate(float detaTime)
         {

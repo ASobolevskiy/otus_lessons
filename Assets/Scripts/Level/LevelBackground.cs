@@ -11,16 +11,12 @@ namespace ShootEmUp
         private float positionX;
         private float positionZ;
         private Transform myTransform;
-
-        [SerializeField]
         private LevelBackgoundParams parameters;
 
-        [SerializeField]
-        private GameManager gameManager;
-
-
-        private void Awake()
+        public void Construct(LevelBackgoundParams parameters)
         {
+            Debug.Log($"{nameof(LevelBackground)} Construct called");
+            this.parameters = parameters;
             startPositionY = parameters.startPositionY;
             endPositionY = parameters.endPositionY;
             movingSpeedY = parameters.movingSpeedY;
@@ -28,12 +24,6 @@ namespace ShootEmUp
             var position = myTransform.position;
             positionX = position.x;
             positionZ = position.z;
-            gameManager.AddGameListener(this);
-        }
-
-        private void OnDestroy()
-        {
-            gameManager.RemoveGameListener(this);
         }
 
         public void OnFixedUpdate(float fixedDeltaTime)

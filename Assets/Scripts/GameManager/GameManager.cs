@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -72,6 +73,15 @@ namespace ShootEmUp
             }
         }
 
+        public void AddGameListeners(IEnumerable<Listeners.IGameListener> listeners)
+        {
+            foreach (Listeners.IGameListener listener in listeners)
+            {
+                AddGameListener(listener);
+            }
+        }
+
+
         public void HandleStart()
         {
             if(GameState == GameState.None)
@@ -133,8 +143,6 @@ namespace ShootEmUp
                 Debug.Log("Game is not started yet!");
             }
         }
-
-
 
         private void Update()
         {

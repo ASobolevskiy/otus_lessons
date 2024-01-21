@@ -2,15 +2,19 @@
 
 namespace ShootEmUp
 {
-    public sealed class CharacterMoveController : MonoBehaviour,
+    public sealed class CharacterMoveController :
         Listeners.IGameStartListener,
         Listeners.IGameFinishListener
     {
-        [SerializeField]
         private InputSystem input;
-
-        [SerializeField]
         private GameObject character;
+
+        public void Construct(InputSystem inputSystem, GameObject character)
+        {
+            Debug.Log($"{nameof(CharacterMoveController)} Construct called!");
+            input = inputSystem;
+            this.character = character;
+        }
 
         private void SetDirection(Vector2 direction)
         {
