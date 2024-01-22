@@ -1,10 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyPool : MonoBehaviour,
+    [Serializable]
+    public sealed class EnemyPool : 
         Listeners.IGameStartListener
     {
         [Header("Pool")]
@@ -23,7 +25,8 @@ namespace ShootEmUp
         {
             for (var i = 0; i < maxEnemies; i++)
             {
-                var enemy = Instantiate(prefab, container);
+                
+                var enemy = UnityEngine.Object.Instantiate(prefab, container);
                 enemyPool.Enqueue(enemy);
             }
         }

@@ -1,4 +1,5 @@
 ﻿using ShootEmUp;
+using ShootEmUp.DI;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,8 @@ using UnityEngine;
 namespace ShootEmUp.Installers
 {
     class BulletInstaller : MonoBehaviour,
-        Providers.IServiceProvider
+        Providers.IServiceProvider,
+        Providers.IInjectProvider
     {
         [SerializeField]
         private Bullet bullet;
@@ -21,6 +23,11 @@ namespace ShootEmUp.Installers
         {
             yield return (typeof(BulletConfig), bulletConfig);
             yield return (typeof(BulletSystem), bulletSystem);
+        }
+
+        public void Inject(ServiceLocator serviceLocator)
+        {
+
         }
     }
 }

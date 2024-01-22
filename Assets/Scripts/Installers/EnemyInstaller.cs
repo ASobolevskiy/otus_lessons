@@ -1,23 +1,25 @@
-﻿using System;
+﻿using ShootEmUp.DI;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace ShootEmUp.Installers
 {
-    class PlayerInstaller : MonoBehaviour,
+    class EnemyInstaller : MonoBehaviour,
         Providers.IGameListenerProvider,
         Providers.IServiceProvider
     {
-        private InputSystem inputSystem = new();
+        [SerializeField]
+        private EnemyPool enemyPool;
 
         public IEnumerable<Listeners.IGameListener> ProvideListeners()
         {
-            yield return inputSystem;
+            yield return enemyPool;
         }
 
         public IEnumerable<(Type, object)> ProvideServices()
         {
-            yield return (typeof(InputSystem), inputSystem);
+            yield return (typeof(EnemyPool), enemyPool);
         }
     }
 }

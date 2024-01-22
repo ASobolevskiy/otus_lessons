@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShootEmUp.DI;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -15,7 +16,6 @@ namespace ShootEmUp
         [SerializeField]
         private EnemyPositions enemyPositions;
 
-        [SerializeField]
         private EnemyPool enemyPool;
 
         [SerializeField]
@@ -29,6 +29,12 @@ namespace ShootEmUp
 
         private GameObject currentEnemy;
 
+        [Inject]
+        public void Construct(EnemyPool enemyPool)
+        {
+            Debug.Log($"{nameof(EnemySpawner)} Construct called!");
+            this.enemyPool = enemyPool;
+        }
         public void SpawnEnemy()
         {
             if(enemyPool.TryDequeueEnemy(out currentEnemy))
