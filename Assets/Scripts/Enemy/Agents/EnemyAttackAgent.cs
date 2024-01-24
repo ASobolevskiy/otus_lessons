@@ -12,9 +12,6 @@ namespace ShootEmUp
         private BulletSystem bulletSystem;
 
         [SerializeField]
-        private EnemyMoveAgent moveAgent;
-
-        [SerializeField]
         private float countdown;
 
         private GameObject target;

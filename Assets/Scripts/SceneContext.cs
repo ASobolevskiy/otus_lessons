@@ -1,5 +1,6 @@
 ﻿using ShootEmUp;
 using ShootEmUp.DI;
+using ShootEmUp.SceneLoaders;
 using UnityEngine;
 
 namespace ShootEmUp
@@ -15,9 +16,10 @@ namespace ShootEmUp
         [SerializeField]
         private MonoBehaviour[] modules;
 
+        private SceneLoader sceneLoader = new();
+
         private void Awake()
         {
-            gameManager = GetComponent<GameManager>();
             for (int i = 0; i < modules.Length; i++)
             {
                 if (modules[i] is Providers.IGameListenerProvider listenersProvider)
@@ -33,6 +35,7 @@ namespace ShootEmUp
             gameManager.AddGameListeners(listeners);
 
             serviceLocator.BindService(typeof(GameManager), gameManager);
+            serviceLocator.BindService(typeof(SceneLoader), sceneLoader);
         }
 
         private void Start()

@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 namespace ShootEmUp.SceneLoaders
 {
-    class SceneLoader : MonoBehaviour
+    class SceneLoader
     {
         public void LoadScene(int sceneIndex)
         {

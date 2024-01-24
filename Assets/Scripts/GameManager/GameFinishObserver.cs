@@ -1,4 +1,5 @@
-﻿using ShootEmUp.SceneLoaders;
+﻿using ShootEmUp.DI;
+using ShootEmUp.SceneLoaders;
 using System;
 using UnityEngine;
 
@@ -6,19 +7,19 @@ namespace ShootEmUp
 {
     class GameFinishObserver : MonoBehaviour
     {
-        [SerializeField]
         private GameManager gameManager;
-
-        [SerializeField]
         private SceneLoader sceneLoader;
 
         private const int LOADING_SCENE_INDEX = 0;
 
-        private void Awake()
+        [Inject]
+        public void Construct(GameManager gameManager, SceneLoader sceneLoader)
         {
-            gameManager.GameFinished += HandleFinishedGame;
+            Debug.Log($"{nameof(GameFinishObserver)} Construct called!");
+            this.gameManager = gameManager;
+            this.sceneLoader = sceneLoader;
+            this.gameManager.GameFinished += HandleFinishedGame;
         }
-
         private void OnDestroy()
         {
             gameManager.GameFinished -= HandleFinishedGame;

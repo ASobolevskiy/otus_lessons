@@ -9,31 +9,27 @@ namespace ShootEmUp
     {
         public event Action<GameObject> OnEnemySpawned;
 
-        [SerializeField]
-        private GameManager gameManager;
-
         [Header("Spawn")]
         [SerializeField]
         private EnemyPositions enemyPositions;
 
-        private EnemyPool enemyPool;
-
         [SerializeField]
         private Transform worldTransform;
 
-        [SerializeField]
+        private GameManager gameManager;
         private GameObject character;
-
-        [SerializeField]
+        private EnemyPool enemyPool;
         private BulletSystem bulletSystem;
-
         private GameObject currentEnemy;
 
         [Inject]
-        public void Construct(EnemyPool enemyPool)
+        public void Construct(EnemyPool enemyPool, BulletSystem bulletSystem, GameObject character, GameManager gameManager)
         {
             Debug.Log($"{nameof(EnemySpawner)} Construct called!");
             this.enemyPool = enemyPool;
+            this.bulletSystem = bulletSystem;
+            this.character = character;
+            this.gameManager = gameManager;
         }
         public void SpawnEnemy()
         {
