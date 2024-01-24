@@ -1,6 +1,6 @@
+using ShootEmUp.Factories;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace ShootEmUp
@@ -9,24 +9,25 @@ namespace ShootEmUp
     public sealed class EnemyPool : 
         Listeners.IGameStartListener
     {
-        [Header("Pool")]
         [SerializeField]
         private Transform container;
-
-        [SerializeField]
-        private GameObject prefab;
 
         [SerializeField]
         public int maxEnemies = 7;
 
         private readonly Queue<GameObject> enemyPool = new();
+        private EnemyFactory enemyFactory;
+
+        public void Construct(EnemyFactory enemyFactory)
+        {
+            this.enemyFactory = enemyFactory;
+        }
 
         public void OnGameStart()
         {
             for (var i = 0; i < maxEnemies; i++)
             {
-                
-                var enemy = UnityEngine.Object.Instantiate(prefab, container);
+                var enemy = enemyFactory.CreateEnemy(container);
                 enemyPool.Enqueue(enemy);
             }
         }

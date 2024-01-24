@@ -1,21 +1,30 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyCooldownSpawner : MonoBehaviour,
+    [Serializable]
+    public sealed class EnemyCooldownSpawner :
         Listeners.IGameStartListener,
         Listeners.IGamePauseListener,
         Listeners.IGameResumeListener,
         Listeners.IGameFinishListener
     {
         [SerializeField]
-        private EnemySpawner enemySpawner;
-
-        [SerializeField]
         private float spawnDelayInSeconds = 1f;
 
         private bool isGameRunning;
+        private EnemySpawner enemySpawner;
+        private CancellationTokenSource cts;
+
+        public void Construct(EnemySpawner enemySpawner)
+        {
+            Debug.Log($"{nameof(EnemyCooldownSpawner)} Construct called");
+            this.enemySpawner = enemySpawner;
+        }
 
         private IEnumerator StartSpawning()
         {
@@ -26,28 +35,41 @@ namespace ShootEmUp
             }
         }
 
+        private async Task StartSpawningTask(CancellationToken ct)
+        {
+            while(isGameRunning && !ct.IsCancellationRequested)
+            {
+                await Task.Delay(TimeSpan.FromSeconds(spawnDelayInSeconds));
+                enemySpawner.SpawnEnemy();
+            }
+        }
+
         public void OnGameStart()
         {
             isGameRunning = true;
-            StartCoroutine(StartSpawning());
+            cts = new CancellationTokenSource();
+            _ = StartSpawningTask(cts.Token);
         }
 
         public void OnGamePause()
         {
             isGameRunning = false;
-            StopCoroutine(StartSpawning());
+            cts.Cancel();
+            cts.Dispose();
         }
 
         public void OnGameResume()
         {
             isGameRunning = true;
-            StartCoroutine(StartSpawning());
+            cts = new();
+            _ = StartSpawningTask(cts.Token);
         }
 
         public void OnGameFinish()
         {
             isGameRunning = false;
-            StopCoroutine(StartSpawning());
+            cts.Cancel();
+            cts.Dispose();
         }
     }
 }

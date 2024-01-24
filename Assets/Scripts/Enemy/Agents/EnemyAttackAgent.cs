@@ -8,11 +8,11 @@ namespace ShootEmUp
         [SerializeField]
         private WeaponComponent weaponComponent;
 
-        //TODO Should inject this with DI
-        private BulletSystem bulletSystem;
-
         [SerializeField]
         private float countdown;
+
+        private BulletSystem bulletSystem;
+
 
         private GameObject target;
         private float currentTime;

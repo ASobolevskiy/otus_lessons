@@ -2,7 +2,8 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyPositions : MonoBehaviour
+    [System.Serializable]
+    public sealed class EnemyPositions
     {
         [SerializeField]
         private Transform[] spawnPositions;

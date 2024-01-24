@@ -4,21 +4,20 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed partial class BulletSystem : MonoBehaviour,
+    public sealed partial class BulletSystem :
         Listeners.IGameUpdateListener
     {
         private LevelBounds levelBounds;
-
-        [SerializeField]
         private BulletPool bulletPool;
 
         private readonly HashSet<Bullet> activeBullets = new();
         private readonly List<Bullet> cache = new();
 
-        [Inject]
-        public void Construct(LevelBounds levelBounds)
+        public void Construct(LevelBounds levelBounds, BulletPool bulletPool)
         {
+            Debug.Log($"{nameof(BulletSystem)} Construct called!");
             this.levelBounds = levelBounds;
+            this.bulletPool = bulletPool;
         }
 
         public void OnUpdate(float detaTime)

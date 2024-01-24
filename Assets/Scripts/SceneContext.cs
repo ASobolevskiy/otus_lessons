@@ -1,5 +1,4 @@
-﻿using ShootEmUp;
-using ShootEmUp.DI;
+﻿using ShootEmUp.DI;
 using ShootEmUp.SceneLoaders;
 using UnityEngine;
 
@@ -12,6 +11,9 @@ namespace ShootEmUp
 
         [SerializeField]
         private ServiceLocator serviceLocator;
+
+        [SerializeField]
+        private Transform worldTransform;
 
         [SerializeField]
         private MonoBehaviour[] modules;
@@ -36,6 +38,7 @@ namespace ShootEmUp
 
             serviceLocator.BindService(typeof(GameManager), gameManager);
             serviceLocator.BindService(typeof(SceneLoader), sceneLoader);
+            serviceLocator.BindService(typeof(Transform), worldTransform);
         }
 
         private void Start()

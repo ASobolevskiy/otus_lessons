@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using ShootEmUp.Factories;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class BulletPool : MonoBehaviour,
+    [Serializable]
+    public sealed class BulletPool :
         Listeners.IGameStartListener
     {
         [SerializeField]
@@ -12,19 +15,21 @@ namespace ShootEmUp
         [SerializeField]
         private Transform container;
 
-        [SerializeField]
-        private Bullet prefab;
-
-        [SerializeField]
         private Transform worldTransform;
+        private BulletFactory bulletFactory;
 
         private readonly Queue<Bullet> bulletPool = new();
 
+        public void Construct(Transform worldTransform, BulletFactory bulletFactory)
+        {
+            this.worldTransform = worldTransform;
+            this.bulletFactory = bulletFactory;
+        }
         public void OnGameStart()
         {
             for (var i = 0; i < initialCount; i++)
             {
-                var bullet = Instantiate(prefab, container);
+                var bullet = bulletFactory.CreateBullet(container);
                 bulletPool.Enqueue(bullet);
             }
         }
@@ -37,7 +42,7 @@ namespace ShootEmUp
             }
             else
             {
-                bullet = Instantiate(prefab, worldTransform);
+                bullet = bulletFactory.CreateBullet(worldTransform);
             }
             return bullet;
         }

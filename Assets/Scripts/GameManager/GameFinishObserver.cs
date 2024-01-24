@@ -1,6 +1,5 @@
 ﻿using ShootEmUp.DI;
 using ShootEmUp.SceneLoaders;
-using System;
 using UnityEngine;
 
 namespace ShootEmUp
