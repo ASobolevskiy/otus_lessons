@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using ShootEmUp.DI;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -20,24 +20,16 @@ namespace ShootEmUp
         private EnemySpawner enemySpawner;
         private CancellationTokenSource cts;
 
+        [Inject]
         public void Construct(EnemySpawner enemySpawner)
         {
             Debug.Log($"{nameof(EnemyCooldownSpawner)} Construct called");
             this.enemySpawner = enemySpawner;
         }
 
-        private IEnumerator StartSpawning()
-        {
-            while (isGameRunning)
-            {
-                yield return new WaitForSeconds(spawnDelayInSeconds);
-                enemySpawner.SpawnEnemy();
-            }
-        }
-
         private async Task StartSpawningTask(CancellationToken ct)
         {
-            while(isGameRunning && !ct.IsCancellationRequested)
+            while (isGameRunning && !ct.IsCancellationRequested)
             {
                 await Task.Delay(TimeSpan.FromSeconds(spawnDelayInSeconds));
                 enemySpawner.SpawnEnemy();
@@ -73,4 +65,3 @@ namespace ShootEmUp
         }
     }
 }
-

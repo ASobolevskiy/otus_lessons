@@ -1,4 +1,6 @@
-﻿namespace ShootEmUp
+﻿using ShootEmUp.DI;
+
+namespace ShootEmUp
 {
     public sealed class Listeners
     {
@@ -32,10 +34,5 @@
         {
             void OnFixedUpdate(float fixedDeltaTime);
         }
-
-        //public interface IGameLateUpdateListener : IGameListener
-        //{
-        //    void OnLateUpdate();
-        //}
     }
 }

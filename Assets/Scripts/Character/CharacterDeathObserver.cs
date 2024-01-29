@@ -9,6 +9,8 @@ namespace ShootEmUp
     {
         private GameObject character;
         private GameManager gameManager;
+
+        [Inject]
         public void Construct(GameObject character, GameManager gameManager)
         {
             Debug.Log($"{nameof(CharacterDeathObserver)} Construct called!");

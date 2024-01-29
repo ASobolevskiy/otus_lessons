@@ -1,4 +1,5 @@
-﻿using ShootEmUp.Factories;
+﻿using ShootEmUp.DI;
+using ShootEmUp.Factories;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,8 +21,10 @@ namespace ShootEmUp
 
         private readonly Queue<Bullet> bulletPool = new();
 
+        [Inject]
         public void Construct(Transform worldTransform, BulletFactory bulletFactory)
         {
+            Debug.Log($"{nameof(BulletPool)} Construct called!");
             this.worldTransform = worldTransform;
             this.bulletFactory = bulletFactory;
         }
@@ -52,6 +55,5 @@ namespace ShootEmUp
             bullet.transform.SetParent(container);
             bulletPool.Enqueue(bullet);
         }
-
     }
 }

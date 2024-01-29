@@ -6,51 +6,24 @@ using UnityEngine;
 
 namespace ShootEmUp.Installers
 {
-    class EnemyInstaller : MonoBehaviour,
-        Providers.IGameListenerProvider,
-        Providers.IServiceProvider,
-        Providers.IInjectProvider
+    class EnemyInstaller : BaseInstaller
     {
-        [SerializeField]
+        [SerializeField, Service(typeof(EnemyFactory))]
         private EnemyFactory enemyFactory;
 
-        [SerializeField]
+        [SerializeField, Listener, Service(typeof(EnemyPool))]
         private EnemyPool enemyPool;
 
-        [SerializeField]
+        [SerializeField, Service(typeof(EnemyPositions))]
         private EnemyPositions enemyPositions;
 
-        [SerializeField]
+        [SerializeField, Listener]
         private EnemyCooldownSpawner enemyCooldownSpawner;
 
+        [Service(typeof(EnemySpawner))]
         private EnemySpawner enemySpawner = new();
+
+        [Listener]
         private EnemyManager enemyManager = new();
-
-        public IEnumerable<Listeners.IGameListener> ProvideListeners()
-        {
-            yield return enemyPool;
-            yield return enemyManager;
-            yield return enemyCooldownSpawner;
-        }
-
-        public IEnumerable<(Type, object)> ProvideServices()
-        {
-            yield return (typeof(EnemyPool), enemyPool);
-            yield return (typeof(EnemySpawner), enemySpawner);
-        }
-
-        public void Inject(ServiceLocator serviceLocator)
-        {
-            enemyFactory.Construct(serviceLocator.GetService<BulletSystem>(), serviceLocator.GetService<GameObject>());
-            enemyPool.Construct(enemyFactory);
-            enemySpawner.Construct(enemyPositions,
-                                   enemyPool,
-                                   serviceLocator.GetService<BulletSystem>(),
-                                   serviceLocator.GetService<GameObject>(),
-                                   serviceLocator.GetService<GameManager>(),
-                                   serviceLocator.GetService<Transform>());
-            enemyManager.Construct(enemySpawner);
-            enemyCooldownSpawner.Construct(enemySpawner);
-        }
     }
 }

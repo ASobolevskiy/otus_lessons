@@ -1,3 +1,4 @@
+using ShootEmUp.DI;
 using UnityEngine;
 
 namespace ShootEmUp
@@ -13,6 +14,7 @@ namespace ShootEmUp
         private Transform myTransform;
         private LevelBackgoundParams parameters;
 
+        [Inject]
         public void Construct(LevelBackgoundParams parameters)
         {
             Debug.Log($"{nameof(LevelBackground)} Construct called");

@@ -1,3 +1,4 @@
+using ShootEmUp.DI;
 using ShootEmUp.Factories;
 using System;
 using System.Collections.Generic;
@@ -18,8 +19,10 @@ namespace ShootEmUp
         private readonly Queue<GameObject> enemyPool = new();
         private EnemyFactory enemyFactory;
 
+        [Inject]
         public void Construct(EnemyFactory enemyFactory)
         {
+            Debug.Log($"{nameof(EnemyPool)} Consruct called!");
             this.enemyFactory = enemyFactory;
         }
 

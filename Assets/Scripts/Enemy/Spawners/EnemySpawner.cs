@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShootEmUp.DI;
+using System;
 using UnityEngine;
 
 namespace ShootEmUp
@@ -10,24 +11,21 @@ namespace ShootEmUp
         private Transform worldTransform;
         private EnemyPositions enemyPositions;
         private GameManager gameManager;
-        private GameObject character;
         private EnemyPool enemyPool;
-        private BulletSystem bulletSystem;
         private GameObject currentEnemy;
 
-        public void Construct(EnemyPositions enemyPositions, EnemyPool enemyPool, BulletSystem bulletSystem, GameObject character, GameManager gameManager, Transform worldTransform)
+        [Inject]
+        public void Construct(EnemyPositions enemyPositions, EnemyPool enemyPool, GameManager gameManager, Transform worldTransform)
         {
             Debug.Log($"{nameof(EnemySpawner)} Construct called!");
             this.enemyPositions = enemyPositions;
             this.enemyPool = enemyPool;
-            this.bulletSystem = bulletSystem;
-            this.character = character;
             this.gameManager = gameManager;
             this.worldTransform = worldTransform;
         }
         public void SpawnEnemy()
         {
-            if(enemyPool.TryDequeueEnemy(out currentEnemy))
+            if (enemyPool.TryDequeueEnemy(out currentEnemy))
             {
                 currentEnemy.transform.SetParent(worldTransform);
                 RestoreHpIfNeeded();

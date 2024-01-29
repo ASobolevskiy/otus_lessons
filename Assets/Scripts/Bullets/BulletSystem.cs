@@ -13,6 +13,7 @@ namespace ShootEmUp
         private readonly HashSet<Bullet> activeBullets = new();
         private readonly List<Bullet> cache = new();
 
+        [Inject]
         public void Construct(LevelBounds levelBounds, BulletPool bulletPool)
         {
             Debug.Log($"{nameof(BulletSystem)} Construct called!");

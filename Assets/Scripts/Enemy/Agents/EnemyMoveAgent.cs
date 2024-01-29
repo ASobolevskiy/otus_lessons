@@ -42,7 +42,6 @@ namespace ShootEmUp
 
             var direction = vector.normalized;
             moveComponent.SetDirection(direction);
-
         }
     }
 }

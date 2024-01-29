@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class CharacterFireController : 
+    public sealed class CharacterFireController :
         Listeners.IGameStartListener,
         Listeners.IGameFinishListener
     {
@@ -12,6 +12,7 @@ namespace ShootEmUp
         private BulletSystem bulletSystem;
         private BulletConfig bulletConfig;
 
+        [Inject]
         public void Construct(GameObject character, BulletSystem bulletSystem, BulletConfig bulletConfig, InputSystem inputSystem)
         {
             Debug.Log($"{nameof(CharacterFireController)} Construct called!");

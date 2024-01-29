@@ -6,38 +6,18 @@ using UnityEngine;
 
 namespace ShootEmUp.Installers
 {
-    class BulletInstaller : MonoBehaviour,
-        Providers.IGameListenerProvider,
-        Providers.IServiceProvider,
-        Providers.IInjectProvider
+    class BulletInstaller : BaseInstaller
     {
-        [SerializeField]
+        [SerializeField, Service(typeof(BulletConfig))]
         private BulletConfig bulletConfig;
 
-        [SerializeField]
+        [SerializeField, Listener, Service(typeof(BulletPool))]
         private BulletPool bulletPool;
 
-        [SerializeField]
+        [SerializeField, Service(typeof(BulletFactory))]
         private BulletFactory bulletFactory;
 
-        private BulletSystem bulletSystem = new();
-
-        public IEnumerable<Listeners.IGameListener> ProvideListeners()
-        {
-            yield return bulletPool;
-        }
-
-        public IEnumerable<(Type, object)> ProvideServices()
-        {
-            yield return (typeof(BulletConfig), bulletConfig);
-            yield return (typeof(BulletPool), bulletPool);
-            yield return (typeof(BulletSystem), bulletSystem);
-        }
-
-        public void Inject(ServiceLocator serviceLocator)
-        {
-            bulletPool.Construct(serviceLocator.GetService<Transform>(), bulletFactory);
-            bulletSystem.Construct(serviceLocator.GetService<LevelBounds>(), bulletPool);
-        }
+        [Service(typeof(BulletSystem))]
+        private readonly BulletSystem bulletSystem = new();
     }
 }

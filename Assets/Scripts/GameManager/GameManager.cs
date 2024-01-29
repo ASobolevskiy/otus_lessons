@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace ShootEmUp
 {
@@ -59,15 +57,7 @@ namespace ShootEmUp
 
         public void AddGameListeners(Listeners.IGameListener[] listeners)
         {
-            for(int i = 0; i < listeners.Length; i++)
-            {
-                AddGameListener(listeners[i]);
-            }
-        }
-
-        public void AddGameListeners(List<Listeners.IGameListener> listeners)
-        {
-            for (int i = 0; i < listeners.Count; i++)
+            for (int i = 0; i < listeners.Length; i++)
             {
                 AddGameListener(listeners[i]);
             }
@@ -81,10 +71,9 @@ namespace ShootEmUp
             }
         }
 
-
         public void HandleStart()
         {
-            if(GameState == GameState.None)
+            if (GameState == GameState.None)
             {
                 Debug.Log("Game started!");
                 GameState = GameState.Playing;
@@ -99,7 +88,7 @@ namespace ShootEmUp
 
         public void HandlePause()
         {
-            if(GameState == GameState.Playing)
+            if (GameState == GameState.Playing)
             {
                 Debug.Log("Game paused!");
                 GameState = GameState.Paused;
@@ -110,12 +99,12 @@ namespace ShootEmUp
             {
                 Debug.Log("Cannot pause not running game!");
             }
-            
+
         }
 
         public void HandleResume()
         {
-            if(GameState == GameState.Paused)
+            if (GameState == GameState.Paused)
             {
                 Debug.Log("Game resumed!");
                 GameState = GameState.Playing;
@@ -130,7 +119,7 @@ namespace ShootEmUp
 
         public void HandleFinish()
         {
-            if(GameState != GameState.None && GameState != GameState.Finished)
+            if (GameState != GameState.None && GameState != GameState.Finished)
             {
                 Debug.Log("Game finished!");
                 GameState = GameState.Finished;
@@ -146,7 +135,7 @@ namespace ShootEmUp
 
         private void Update()
         {
-            if(GameState == GameState.Playing)
+            if (GameState == GameState.Playing)
             {
                 for (int i = 0; i < gameUpdateListeners.Count; i++)
                 {
@@ -157,7 +146,7 @@ namespace ShootEmUp
 
         private void FixedUpdate()
         {
-            if(GameState == GameState.Playing)
+            if (GameState == GameState.Playing)
             {
                 for (int i = 0; i < gameFixedUpdateListeners.Count; i++)
                 {

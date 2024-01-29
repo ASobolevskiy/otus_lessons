@@ -1,11 +1,9 @@
-﻿using JetBrains.Annotations;
-using System;
+﻿using System;
 
 namespace ShootEmUp.DI
 {
-    [MeansImplicitUse]
     [AttributeUsage(AttributeTargets.Method)]
-    class InjectAttribute : Attribute
+    public sealed class InjectAttribute : Attribute
     {
     }
 }

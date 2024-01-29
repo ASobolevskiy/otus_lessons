@@ -1,3 +1,4 @@
+using ShootEmUp.DI;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace ShootEmUp
         private EnemySpawner enemySpawner;
         private readonly HashSet<GameObject> activeEnemies = new();
 
+        [Inject]
         public void Construct(EnemySpawner enemySpawner)
         {
             Debug.Log($"{nameof(EnemyManager)} Construct called");
@@ -20,7 +22,7 @@ namespace ShootEmUp
             if (activeEnemies.Add(enemy))
             {
                 enemy.GetComponent<HitPointsComponent>().OnHpEmpty += OnDestroyed;
-                if(enemy.TryGetComponent(out EnemyDestinationReachedController enemyDestinationReachedController))
+                if (enemy.TryGetComponent(out EnemyDestinationReachedController enemyDestinationReachedController))
                 {
                     enemyDestinationReachedController.Activate();
                 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ShootEmUp.DI;
+using UnityEngine;
 
 namespace ShootEmUp
 {
@@ -9,6 +10,7 @@ namespace ShootEmUp
         private InputSystem input;
         private GameObject character;
 
+        [Inject]
         public void Construct(InputSystem inputSystem, GameObject character)
         {
             Debug.Log($"{nameof(CharacterMoveController)} Construct called!");
@@ -35,4 +37,3 @@ namespace ShootEmUp
         }
     }
 }
-

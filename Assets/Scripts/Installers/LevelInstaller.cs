@@ -5,36 +5,17 @@ using UnityEngine;
 
 namespace ShootEmUp.Installers
 {
-    class LevelInstaller : MonoBehaviour,
-        Providers.IGameListenerProvider,
-        Providers.IServiceProvider,
-        Providers.IInjectProvider
+    class LevelInstaller : BaseInstaller
     {
-        [SerializeField]
+        [SerializeField, Listener]
         private LevelBackground levelBackground;
 
-        [SerializeField]
+        [SerializeField, Service(typeof(LevelBackgoundParams))]
         private LevelBackgoundParams backgroundParams;
 
         [Space]
 
-        [SerializeField]
+        [SerializeField, Service(typeof(LevelBounds))]
         private LevelBounds levelBounds;
-
-        public IEnumerable<Listeners.IGameListener> ProvideListeners()
-        {
-            yield return levelBackground;
-        }
-
-        public IEnumerable<(Type, object)> ProvideServices()
-        {
-            yield return (typeof(LevelBounds), levelBounds);
-        }
-
-        public void Inject(ServiceLocator serviceLocator)
-        {
-            levelBackground.Construct(backgroundParams);
-        }
-
     }
 }
