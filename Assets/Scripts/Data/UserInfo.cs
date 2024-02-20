@@ -2,7 +2,7 @@ using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
 
-namespace Lessons.Architecture.PM
+namespace Homework4.Data
 {
     public sealed class UserInfo
     {
@@ -10,13 +10,13 @@ namespace Lessons.Architecture.PM
         public event Action<string> OnDescriptionChanged;
         public event Action<Sprite> OnIconChanged;
 
-        [ShowInInspector, ReadOnly]
+        [ShowInInspector]
         public string Name { get; private set; }
 
-        [ShowInInspector, ReadOnly]
+        [ShowInInspector]
         public string Description { get; private set; }
 
-        [ShowInInspector, ReadOnly]
+        [ShowInInspector]
         public Sprite Icon { get; private set; }
 
         [Button]

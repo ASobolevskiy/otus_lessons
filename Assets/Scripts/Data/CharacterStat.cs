@@ -1,16 +1,16 @@
 using Sirenix.OdinInspector;
 using System;
 
-namespace Lessons.Architecture.PM
+namespace Homework4.Data
 {
     public sealed class CharacterStat
     {
         public event Action<int> OnValueChanged;
 
-        [ShowInInspector, ReadOnly]
+        [ShowInInspector]
         public string Name { get; private set; }
 
-        [ShowInInspector, ReadOnly]
+        [ShowInInspector]
         public int Value { get; private set; }
 
         [Button]

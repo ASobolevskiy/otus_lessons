@@ -1,25 +1,17 @@
-﻿
-using Lessons.Architecture.PM;
+﻿using Homework4.Popups;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using Zenject;
 
-namespace Assets.Scripts.Helpers
+namespace Homework4.Helpers
 {
     class CharacterHelper : MonoBehaviour
     {
-        UserInfo userInfo;
-
-        [Inject]
-        public void Construct(UserInfo userInfo)
-        {
-            this.userInfo = userInfo;
-        }
+        [SerializeField]
+        private CharacterPopup characterPopup;
 
         [Button]
-        public void ChangeName(string name)
+        private void ShowCharacterPopup()
         {
-            userInfo.ChangeName(name);
         }
     }
 }

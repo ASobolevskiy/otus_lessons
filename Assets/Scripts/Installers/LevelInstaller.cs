@@ -1,4 +1,4 @@
-﻿using Lessons.Architecture.PM;
+﻿using Homework4.Data;
 using Zenject;
 
 namespace Assets.Scripts.Installers
@@ -8,6 +8,7 @@ namespace Assets.Scripts.Installers
         public override void InstallBindings()
         {
             Container.Bind<UserInfo>().AsSingle().NonLazy();
+            Container.Bind<PlayerLevel>().AsSingle().NonLazy();
         }
     }
 }

@@ -3,15 +3,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Lessons.Architecture.PM
+namespace Homework4.Data
 {
+    [Serializable]
     public sealed class CharacterInfo
     {
         public event Action<CharacterStat> OnStatAdded;
         public event Action<CharacterStat> OnStatRemoved;
 
-        [ShowInInspector]
-        private readonly HashSet<CharacterStat> stats = new();
+        [ShowInInspector, ReadOnly]
+        private HashSet<CharacterStat> stats = new();
+
+        [PropertySpace]
 
         [Button]
         public void AddStat(CharacterStat stat)
